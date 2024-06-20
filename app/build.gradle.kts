@@ -43,6 +43,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation ("com.firebaseui:firebase-ui-auth:7.2.0")
     implementation("com.firebaseui:firebase-ui-database:8.0.2")
+    implementation ("com.google.firebase:firebase-storage")
 
 
 

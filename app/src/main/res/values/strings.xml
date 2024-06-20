@@ -15,4 +15,6 @@
     <string name="Mock_Test_Email">Email: Test@gmail.com</string>
     <string name="Mock_Test_Level">Level: 5</string>
     <string name="Mock_Test_Location">Location: Barceloina</string>
+    <string name="subir_fotografia_de_perfil">Subir fotografia de perfil</string>
+    <string name="profile_photo">Profile_photo</string>
 </resources>
