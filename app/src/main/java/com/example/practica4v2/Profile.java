@@ -39,7 +39,7 @@ public class Profile extends Fragment {
 
     //UI ELEMENTS
 
-    Button btn_upload;
+    Button btn_upload, btn_settings;
     ShapeableImageView user_profile_photo;
     TextView current_user_name;
 
