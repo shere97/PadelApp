@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                     case 2:
                         bottomNavigationView.getMenu().findItem(R.id.bottom_profile).setChecked(true);
                         break;
+
                 }
                 super.onPageSelected(position);
             }

@@ -23,12 +23,13 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.Objects;
 
 public class Register extends AppCompatActivity {
 
-    TextInputEditText editTextEmail, editTextPassword;
+    TextInputEditText editTextEmail, editTextPassword, editTextDisplayName;
     Button btn_register;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
@@ -59,6 +60,7 @@ public class Register extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         editTextEmail= findViewById(R.id.email);
         editTextPassword =  findViewById(R.id.password);
+        editTextDisplayName = findViewById(R.id.display_name);
         btn_register = findViewById(R.id.btn_register);
         progressBar = findViewById(R.id.progress_bar);
         textView = findViewById(R.id.loginNow);
@@ -78,15 +80,21 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
-                String email, password;
+                String email, password, display_name;
                 email = Objects.requireNonNull(editTextEmail.getText()).toString();
                 password = Objects.requireNonNull(editTextPassword.getText()).toString();
+                display_name = Objects.requireNonNull(editTextDisplayName.getText()).toString();
 
                 if (TextUtils.isEmpty(email)){
                     Toast.makeText(Register.this, "Enter email", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (TextUtils.isEmpty(password)){
+                    Toast.makeText(Register.this, "Enter password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(display_name)){
                     Toast.makeText(Register.this, "Enter password", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -100,6 +108,16 @@ public class Register extends AppCompatActivity {
 
                                     Toast.makeText(Register.this, " Account created",
                                             Toast.LENGTH_SHORT).show();
+
+
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    if (user != null) {
+
+                                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                .setDisplayName(display_name)
+                                                .build();
+                                        user.updateProfile(profileUpdates);
+                                    }
 
                                 } else {
                                     // If sign in fails, display a message to the user.

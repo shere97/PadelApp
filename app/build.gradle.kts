@@ -44,6 +44,9 @@ dependencies {
     implementation ("com.firebaseui:firebase-ui-auth:7.2.0")
     implementation("com.firebaseui:firebase-ui-database:8.0.2")
     implementation ("com.google.firebase:firebase-storage")
+    implementation("com.android.volley:volley:1.2.1")
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
 
 
 

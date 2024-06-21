@@ -17,4 +17,6 @@
     <string name="Mock_Test_Location">Location: Barceloina</string>
     <string name="subir_fotografia_de_perfil">Subir fotografia de perfil</string>
     <string name="profile_photo">Profile_photo</string>
+    <string name="news">News</string>
+    <string name="username">Username</string>
 </resources>
