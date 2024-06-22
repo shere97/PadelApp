@@ -84,9 +84,13 @@ public class Login extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(email)){
                     Toast.makeText(Login.this, "Enter email", Toast.LENGTH_SHORT).show();
+                    editTextEmail.setError("Enter email");
+
+
                     return;
                 }
                 if (TextUtils.isEmpty(password)){
+                    editTextPassword.setError("Enter password");
                     Toast.makeText(Login.this, "Enter password", Toast.LENGTH_SHORT).show();
                     return;
                 }

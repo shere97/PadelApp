@@ -5,12 +5,18 @@ public class Reserva {
     private String idReserva;
     private String teacher_name;
 
+    private String location;
+
     private String user_name;
 
     private String horaSeleccionada;
 
     public String getIdReserva() {
         return idReserva;
+    }
+
+    public String getLocation() {
+        return location;
     }
 
     public String getTeacher_name() {
@@ -29,10 +35,11 @@ public class Reserva {
 
     }
 
-    public Reserva(String idReserva, String teacher_name, String user_name, String horaSeleccionada) {
+    public Reserva(String idReserva, String teacher_name, String user_name, String horaSeleccionada, String location) {
         this.idReserva = idReserva;
         this.teacher_name = teacher_name;
         this.user_name = user_name;
+        this.location = location;
         this.horaSeleccionada = horaSeleccionada;
     }
 }

@@ -10,13 +10,14 @@
     <string name="profile">Profile</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="foto_de_perfil">Foto de perfil</string>
+    <string name="foto_de_perfil">Profile photo</string>
     <string name="Mock_Test_Name">Carlos</string>
     <string name="Mock_Test_Email">Email: Test@gmail.com</string>
     <string name="Mock_Test_Level">Level: 5</string>
     <string name="Mock_Test_Location">Location: Barceloina</string>
-    <string name="subir_fotografia_de_perfil">Subir fotografia de perfil</string>
+    <string name="subir_fotografia_de_perfil">Upload profile photo</string>
     <string name="profile_photo">Profile_photo</string>
     <string name="news">News</string>
     <string name="username">Username</string>
+    <string name="todo">TODO</string>
 </resources>

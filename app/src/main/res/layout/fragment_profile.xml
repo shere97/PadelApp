@@ -16,7 +16,16 @@
         android:layout_gravity="center"
         android:layout_margin="10dp"
         app:cardElevation="5dp"
-        app:cardBackgroundColor="@color/white">
+        >
+
+        <ImageButton
+            android:id="@+id/night_mode"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="right"
+            app:srcCompat="@drawable/baseline_mode_night_24"
+            tools:ignore="RtlHardcoded"
+            android:contentDescription="@string/todo" />
 
         <LinearLayout
         android:layout_width="match_parent"

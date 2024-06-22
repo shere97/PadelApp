@@ -1,6 +1,8 @@
 package com.example.practica4v2;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -29,11 +31,13 @@ import java.util.Objects;
 
 public class Register extends AppCompatActivity {
 
-    TextInputEditText editTextEmail, editTextPassword, editTextDisplayName;
+    TextInputEditText editTextEmail, editTextPassword, editTextDisplayName, editTextSurname;
     Button btn_register;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     TextView textView;
+
+
 
 
     @Override
@@ -57,10 +61,14 @@ public class Register extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        SharedPreferences myPrefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+
         mAuth = FirebaseAuth.getInstance();
         editTextEmail= findViewById(R.id.email);
         editTextPassword =  findViewById(R.id.password);
         editTextDisplayName = findViewById(R.id.display_name);
+        editTextSurname =  findViewById(R.id.display_surname);
         btn_register = findViewById(R.id.btn_register);
         progressBar = findViewById(R.id.progress_bar);
         textView = findViewById(R.id.loginNow);
@@ -80,16 +88,18 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
-                String email, password, display_name;
+                String email, password, display_name, surname;
                 email = Objects.requireNonNull(editTextEmail.getText()).toString();
                 password = Objects.requireNonNull(editTextPassword.getText()).toString();
-                display_name = Objects.requireNonNull(editTextDisplayName.getText()).toString();
+                surname = Objects.requireNonNull(editTextSurname.getText()).toString();
+                display_name = Objects.requireNonNull(editTextDisplayName.getText()).toString() + " " + Objects.requireNonNull(editTextSurname.getText()).toString();
 
                 if (TextUtils.isEmpty(email)){
                     Toast.makeText(Register.this, "Enter email", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (TextUtils.isEmpty(password)){
+                    editTextPassword.setError("Enter password");
                     Toast.makeText(Register.this, "Enter password", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -99,6 +109,16 @@ public class Register extends AppCompatActivity {
                     return;
                 }
 
+                if (TextUtils.isEmpty(surname)){
+                    Toast.makeText(Register.this, "Enter surname", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                SharedPreferences.Editor editor = myPrefs.edit();
+                editor.putString("name", display_name);
+                editor.apply();
+
+
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
@@ -106,9 +126,9 @@ public class Register extends AppCompatActivity {
                                 progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
 
+
                                     Toast.makeText(Register.this, " Account created",
                                             Toast.LENGTH_SHORT).show();
-
 
 
 
@@ -122,6 +142,8 @@ public class Register extends AppCompatActivity {
 
                                         Intent intent = new Intent(getApplicationContext(), Login.class);
                                         startActivity(intent);
+
+
                                     }
 
                                 } else {

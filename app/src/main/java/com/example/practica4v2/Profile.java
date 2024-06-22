@@ -1,9 +1,12 @@
 package com.example.practica4v2;
 
+import static androidx.core.app.ActivityCompat.recreate;
+
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,10 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -44,10 +49,14 @@ public class Profile extends Fragment {
     //UI ELEMENTS
 
     Button btn_upload, btn_settings;
+    private ImageButton btnToggleTheme;
+
     ShapeableImageView user_profile_photo;
     TextView current_user_name;
 
     // VARIABLES
+
+    private boolean isDarkModeEnabled = false;
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int REQUEST_CODE_READ_EXTERNAL_STORAGE = 1;
 
@@ -64,9 +73,24 @@ public class Profile extends Fragment {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference();
 
+        int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
+        switch (currentNightMode) {
+            case Configuration.UI_MODE_NIGHT_YES:
+                isDarkModeEnabled = true;
+                break;
+            case Configuration.UI_MODE_NIGHT_NO:
+                isDarkModeEnabled = false;
+                break;
+        }
+
+
+
+
         //UI inserts
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        btnToggleTheme = view.findViewById(R.id.night_mode);
         btn_upload =  view.findViewById(R.id.btn_upload);
         current_user_name = view.findViewById(R.id.current_user_name);
         user_profile_photo =  view.findViewById(R.id.profile_photo);
@@ -79,7 +103,28 @@ public class Profile extends Fragment {
         view.findViewById(R.id.btn_upload).setOnClickListener(v -> openFileChooser());
         view.findViewById(R.id.btn_settings).setOnClickListener(v -> openDialog());
 
+        btnToggleTheme.setOnClickListener(v -> {
+            toggleTheme();
+        });
+
+
+
         return view;
+    }
+
+    private void toggleTheme() {
+
+            if (isDarkModeEnabled) {
+                // Cambiar a modo claro
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                isDarkModeEnabled = false;
+            } else {
+                // Cambiar a modo oscuro
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                isDarkModeEnabled = true;
+            }
+
+            recreate(this.requireActivity());
     }
 
     private void openDialog() {

@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -59,6 +61,7 @@ public class TeacherDetailActivity extends AppCompatActivity {
         TextView tvLocation = findViewById(R.id.teacher_location);
         TextView tvDescription = findViewById(R.id.teacher_description);
         TextView tvPhone = findViewById(R.id.teacher_phone);
+        TextView turnBack = findViewById(R.id.turn_back);
         ShapeableImageView shapeableImageView = findViewById(R.id.profile_photo);
 
         Button btnReserve = findViewById(R.id.btn_makeBooking);
@@ -77,12 +80,21 @@ public class TeacherDetailActivity extends AppCompatActivity {
 
 
         btnReserve.setOnClickListener(v -> {
-            mostrarDialogoConfirmacion(name);
+            mostrarDialogoConfirmacion(name, location);
+        });
+
+        turnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
         });
 
     }
 
-    private void mostrarDialogoConfirmacion(String teacherName) {
+    private void mostrarDialogoConfirmacion(String teacherName, String location) {
 
         TimePicker timePicker = new TimePicker(this);
         timePicker.setIs24HourView(true);
@@ -102,7 +114,7 @@ public class TeacherDetailActivity extends AppCompatActivity {
                 int minute = timePicker.getCurrentMinute();
 
                 // Aquí se ejecuta cuando se selecciona la hora y se hace clic en OK
-                confirmarReserva(teacherName, hourOfDay, minute); // Llamar a método para confirmar reserva
+                confirmarReserva(teacherName, hourOfDay, minute , location); // Llamar a método para confirmar reserva
             }
         });
 
@@ -119,7 +131,7 @@ public class TeacherDetailActivity extends AppCompatActivity {
 
     }
 
-    private void confirmarReserva(String teacher_name, int hourOfDay, int minute) {
+    private void confirmarReserva(String teacher_name, int hourOfDay, int minute, String location) {
 
         String horaSeleccionada = String.format("%02d:%02d", hourOfDay, minute);
         String userId = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid(); // Obtenemos el ID del usuario actual
@@ -128,9 +140,8 @@ public class TeacherDetailActivity extends AppCompatActivity {
 
         String reservaId = reservasRef.getKey();
 
-        Reserva reserva = new Reserva(reservaId, teacher_name, firebaseAuth.getCurrentUser().getEmail(), horaSeleccionada);
+        Reserva reserva = new Reserva(reservaId, teacher_name, firebaseAuth.getCurrentUser().getEmail(), horaSeleccionada, location);
 
-        // Guardamos la reserva en la base de datos
         reservasRef.setValue(reserva)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
