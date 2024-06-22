@@ -1,5 +1,6 @@
 package com.example.practica4v2;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.example.practica4v2.adapters.TeacherAdapter;
 import com.example.practica4v2.model.TeacherModel;
@@ -33,14 +35,27 @@ public class Search extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-
-
-
         FirebaseRecyclerOptions<TeacherModel> options = new FirebaseRecyclerOptions.Builder<TeacherModel>()
                 .setQuery(FirebaseDatabase.getInstance().getReference().child("teacher"), TeacherModel.class)
                 .build();
 
-        teacherAdapter = new TeacherAdapter(options);
+        teacherAdapter = new TeacherAdapter(options, new TeacherAdapter.OnItemClickListener() {
+
+            @Override
+            public void OnItemClick(TeacherModel teacher) {
+                Intent intent = new Intent(getActivity(), TeacherDetailActivity.class);
+                intent.putExtra("teacher_name", teacher.getName());
+                intent.putExtra("teacher_level", teacher.getLevel().toString());
+                intent.putExtra("teacher_location", teacher.getLocation());
+                intent.putExtra("teacher_email", teacher.getEmail());
+                intent.putExtra("teacher_id", teacher.getId());
+                intent.putExtra("teacher_url", teacher.getUrl());
+                intent.putExtra("teacher_description", teacher.getDescription());
+                intent.putExtra("teacher_phone", teacher.getPhone());
+
+                startActivity(intent);
+            }
+        });
         recyclerView.setAdapter(teacherAdapter);
 
 
