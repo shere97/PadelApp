@@ -25,6 +25,10 @@ public class Reserva {
         return horaSeleccionada;
     }
 
+    public Reserva(){
+
+    }
+
     public Reserva(String idReserva, String teacher_name, String user_name, String horaSeleccionada) {
         this.idReserva = idReserva;
         this.teacher_name = teacher_name;
