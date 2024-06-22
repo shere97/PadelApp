@@ -110,6 +110,8 @@ public class Register extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
 
 
+
+
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     if (user != null) {
 
@@ -117,6 +119,9 @@ public class Register extends AppCompatActivity {
                                                 .setDisplayName(display_name)
                                                 .build();
                                         user.updateProfile(profileUpdates);
+
+                                        Intent intent = new Intent(getApplicationContext(), Login.class);
+                                        startActivity(intent);
                                     }
 
                                 } else {
